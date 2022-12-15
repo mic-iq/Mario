@@ -4,6 +4,7 @@ package jade;
 public class Window {
     private int width, height;
     private String title;
+    private long glfwWindow;
     private static Window window = null;
 
     private Window() {
@@ -42,11 +43,34 @@ public class Window {
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
             glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
             glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
-            
+
+            //Crear ventana
+            glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
+            if(glfwWindow == NULL){
+                throw new IllegalStateException("Fallo al crear la ventana GLFW");
+            }
+
+            //COntexto para OPENGL
+            glfwMakeContextCurrent(glfwWindow);
+            //activar v-sync
+            glfwSwapInterval(1);
+            //Hacer visible la ventana
+            glfwShowWindow(glfwWindow);
+
+
+            GL.createCapabilities();
 
         }
 
         public void loop(){
+            while(!glfwWindowShouldClose(glfwWindow)){
+                //Eventos
+                glfwPollEvents();
 
+                glClearColor( red: 1.0f, green:0.0f, blue:0.0f, alpha: 1.0f);
+                glClear(GL_COLOR_BUFFER_BIT);
+
+                glfwSwapBuffers(glfwWindow);
+            }
         }
 }
