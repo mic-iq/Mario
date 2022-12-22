@@ -1,5 +1,5 @@
 package mario;
-import mario.jade.Window;
+import jade.*;
 
 public class Main {
     public static void main(String[] args){
